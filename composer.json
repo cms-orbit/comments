@@ -5,12 +5,13 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "CMS-Orbit Team",
-            "email": "dev@cms-orbit.com"
+            "name": "xiso",
+            "email": "ceo@amuz.co.kr"
         }
     ],
     "require": {
         "php": "^8.3",
+        "amuz/cms-orbit": "3.0.19",
         "laravel/framework": "^11.0",
         "spatie/laravel-activitylog": "^4.0",
         "spatie/laravel-translatable": "^6.0",
