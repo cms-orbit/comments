@@ -83,7 +83,7 @@ class CommentRating extends Model
      */
     public function getCategoryDisplayNameAttribute(): string
     {
-        $categories = config('comments.ratings.categories.custom', []);
+        $categories = config('orbit-comments.ratings.categories.custom', []);
         return $categories[$this->category] ?? ucfirst($this->category);
     }
 
@@ -114,15 +114,15 @@ class CommentRating extends Model
     {
         $fullStars = floor($this->rating);
         $hasHalfStar = ($this->rating - $fullStars) >= 0.5;
-        
+
         $stars = str_repeat('★', $fullStars);
         if ($hasHalfStar) {
             $stars .= '☆';
         }
-        
+
         $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0);
         $stars .= str_repeat('☆', $emptyStars);
-        
+
         return $stars;
     }
-} 
+}

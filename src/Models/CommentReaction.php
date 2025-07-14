@@ -53,7 +53,7 @@ class CommentReaction extends Model
      */
     public function getEmojiAttribute(): string
     {
-        $reactions = config('comments.reactions.types', []);
+        $reactions = config('orbit-comments.reactions.types', []);
         return $reactions[$this->type] ?? '👍';
     }
 

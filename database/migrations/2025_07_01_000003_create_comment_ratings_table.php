@@ -16,14 +16,12 @@ return new class extends Migration
             $table->foreignId('comment_id')->constrained()->onDelete('cascade');
             $table->nullableMorphs('rater');
             $table->string('category'); // overall, cleanliness, service, facility, value, etc.
-            $table->decimal('rating', 2, 1); // 0.0 to 5.0 (allows half stars)
+            $table->decimal('rating', 2, 1)->index();
             $table->string('ip_address', 45)->nullable();
             $table->timestamps();
 
             $table->unique(['comment_id', 'rater_type', 'rater_id', 'category'], 'unique_rating');
             $table->index(['comment_id', 'category']);
-            $table->index(['rater_type', 'rater_id']);
-            $table->index(['rating']);
         });
     }
 
@@ -34,4 +32,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('comment_ratings');
     }
-}; 
+};

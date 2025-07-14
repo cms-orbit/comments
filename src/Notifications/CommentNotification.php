@@ -30,11 +30,11 @@ abstract class CommentNotification extends Notification implements ShouldQueue
     {
         $channels = [];
 
-        if (config('comments.notifications.email.enabled', true)) {
+        if (config('orbit-comments.notifications.email.enabled', true)) {
             $channels[] = 'mail';
         }
 
-        if (config('comments.notifications.database.enabled', true)) {
+        if (config('orbit-comments.notifications.database.enabled', true)) {
             $channels[] = 'database';
         }
 
@@ -109,7 +109,7 @@ abstract class CommentNotification extends Notification implements ShouldQueue
     protected function getActionUrl(): string
     {
         $commentable = $this->comment->commentable;
-        
+
         // Try to get the URL from the commentable model
         if (method_exists($commentable, 'getShowPageUrl')) {
             return $commentable->getShowPageUrl();
@@ -118,4 +118,4 @@ abstract class CommentNotification extends Notification implements ShouldQueue
         // Fallback to a generic URL
         return url('/');
     }
-} 
+}

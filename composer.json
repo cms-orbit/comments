@@ -11,12 +11,7 @@
     ],
     "require": {
         "php": "^8.3",
-        "amuz/cms-orbit": "3.0.19",
-        "laravel/framework": "^11.0",
-        "spatie/laravel-activitylog": "^4.0",
-        "spatie/laravel-translatable": "^6.0",
-        "spatie/laravel-permission": "^6.0",
-        "laravel/notifications": "^1.0"
+        "amuz/cms-orbit": "3.0.20"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0",
@@ -29,7 +24,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "CmsOrbit\\Comments\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -44,4 +38,4 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true
-} 
+}

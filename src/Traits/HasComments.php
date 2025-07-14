@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Auth;
 trait HasComments
 {
     /**
+     * Get comment configuration for this model.
+     * 각 모델은 이 메서드를 오버라이드하여 자신만의 댓글 설정을 정의할 수 있습니다.
+     */
+    public static function commentConfigs(): array
+    {
+        return config('orbit-comments');
+    }
+
+    /**
      * Get all comments for the model.
      */
     public function comments(): MorphMany
@@ -66,7 +75,8 @@ trait HasComments
         }
 
         // Auto-approve if configured
-        if (config('comments.moderation.auto_approve', true)) {
+        $configs = static::commentConfigs();
+        if ($configs['moderation']['auto_approve']) {
             $data['is_approved'] = true;
         }
 
@@ -127,8 +137,9 @@ trait HasComments
      */
     public function getPaginatedComments(int $perPage = null): \Illuminate\Pagination\LengthAwarePaginator
     {
-        $perPage = $perPage ?? config('comments.display.per_page', 10);
-        
+        $configs = static::commentConfigs();
+        $perPage = $perPage ?? $configs['display']['per_page'];
+
         return $this->comments()
             ->approved()
             ->topLevel()
@@ -236,7 +247,8 @@ trait HasComments
      */
     public function getRatingSummaryAttribute(): array
     {
-        $categories = config('comments.ratings.categories.custom', []);
+        $configs = static::commentConfigs();
+        $categories = $configs['ratings']['categories']['custom'] ?? [];
         $summary = [];
 
         foreach ($categories as $category => $displayName) {
@@ -267,4 +279,4 @@ trait HasComments
 
         return $summary;
     }
-} 
+}

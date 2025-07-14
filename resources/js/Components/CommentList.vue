@@ -1,7 +1,7 @@
 <template>
   <div class="comments-section">
     <!-- 댓글 작성 폼 -->
-    <CommentForm 
+    <CommentForm
       v-if="canComment"
       :commentable-type="commentableType"
       :commentable-id="commentableId"
@@ -11,9 +11,9 @@
     <!-- 댓글 목록 -->
     <div v-if="comments.length > 0" class="comments-list">
       <h3 class="text-lg font-semibold mb-4">
-        댓글 ({{ totalComments }})
+        {{ __('Comments') }} ({{ totalComments }})
       </h3>
-      
+
       <div class="space-y-4">
         <CommentItem
           v-for="comment in comments"
@@ -34,8 +34,8 @@
 
     <!-- 댓글이 없을 때 -->
     <div v-else class="text-center py-8 text-gray-500">
-      <p>아직 댓글이 없습니다.</p>
-      <p v-if="canComment" class="mt-2">첫 번째 댓글을 작성해보세요!</p>
+      <p>{{ __('No comments yet.') }}</p>
+      <p v-if="canComment" class="mt-2">{{ __('Be the first to comment!') }}</p>
     </div>
   </div>
 </template>
@@ -43,9 +43,10 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
-import CommentForm from './CommentForm.vue'
-import CommentItem from './CommentItem.vue'
-import Pagination from './Pagination.vue'
+import CommentForm from '@orbit/comments/Components/CommentForm.vue'
+import CommentItem from '@orbit/comments/Components/CommentItem.vue'
+import Pagination from '@orbit/comments/Components/Pagination.vue'
+import { __ } from '@/lib/translate.js';
 
 const props = defineProps({
   commentableType: {
@@ -106,7 +107,7 @@ const handleReactionToggled = (commentId, reactionType, isActive) => {
     if (!comment.reactions_summary) {
       comment.reactions_summary = {}
     }
-    
+
     if (isActive) {
       comment.reactions_summary[reactionType] = {
         emoji: getReactionEmoji(reactionType),
@@ -120,7 +121,7 @@ const handleReactionToggled = (commentId, reactionType, isActive) => {
         }
       }
     }
-    
+
     emit('reaction-toggled', commentId, reactionType, isActive)
   }
 }
@@ -132,12 +133,12 @@ const handleRatingAdded = (commentId, category, rating) => {
     if (!comment.rating_summary) {
       comment.rating_summary = {}
     }
-    
+
     comment.rating_summary[category] = {
       average: rating,
       count: 1
     }
-    
+
     emit('rating-added', commentId, category, rating)
   }
 }
@@ -146,7 +147,7 @@ const handleRatingAdded = (commentId, category, rating) => {
 const handlePageChanged = (page) => {
   router.get(
     route().current(),
-    { 
+    {
       ...route().params,
       page: page,
       comment_page: page
@@ -204,4 +205,4 @@ watch(() => props.pagination, (newPagination) => {
 .comments-list {
   @apply mt-8;
 }
-</style> 
+</style>

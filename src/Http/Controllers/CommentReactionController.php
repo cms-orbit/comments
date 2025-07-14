@@ -16,8 +16,16 @@ class CommentReactionController extends Controller
      */
     public function toggle(Request $request, Comment $comment): JsonResponse
     {
+        // 로그인 체크
+        if (!Auth::check()) {
+            return response()->json([
+                'error' => '로그인이 필요합니다.',
+                'message' => '리액션을 사용하려면 로그인해주세요.'
+            ], 401);
+        }
+
         $validator = Validator::make($request->all(), [
-            'type' => 'required|string|in:' . implode(',', array_keys(config('comments.reactions.types', []))),
+            'type' => 'required|string|in:' . implode(',', array_keys(config('orbit-comments.reactions.types', []))),
         ]);
 
         if ($validator->fails()) {
@@ -57,6 +65,7 @@ class CommentReactionController extends Controller
             'message' => $isActive ? '반응이 추가되었습니다.' : '반응이 제거되었습니다.',
             'is_active' => $isActive,
             'reactions_summary' => $reactionsSummary,
+            'comment_id' => $comment->id,
         ]);
     }
 } 

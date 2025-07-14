@@ -1,0 +1,11 @@
+{
+    "name": "@orbit/comments",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {},
+    "dependencies": {
+        "date-fns": "^4.1.0",
+        "vue-star-rating": "^1.7.0"
+    },
+    "devDependencies": {}
+}

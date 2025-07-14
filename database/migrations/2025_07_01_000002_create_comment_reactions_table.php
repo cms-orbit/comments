@@ -21,7 +21,6 @@ return new class extends Migration
 
             $table->unique(['comment_id', 'reactor_type', 'reactor_id', 'type'], 'unique_reaction');
             $table->index(['comment_id', 'type']);
-            $table->index(['reactor_type', 'reactor_id']);
         });
     }
 
@@ -32,4 +31,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('comment_reactions');
     }
-}; 
+};

@@ -26,18 +26,21 @@ class Comment extends Model
         'content',
         'guest_name',
         'guest_email',
+        'guest_password',
         'is_approved',
         'is_spam',
+        'is_secret',
+        'notify_reply',
         'ip_address',
         'user_agent',
-        'rating_data',
         'reaction_data',
     ];
 
     protected $casts = [
         'is_approved' => 'boolean',
         'is_spam' => 'boolean',
-        'rating_data' => 'array',
+        'is_secret' => 'boolean',
+        'notify_reply' => 'boolean',
         'reaction_data' => 'array',
     ];
 
@@ -162,15 +165,26 @@ class Comment extends Model
      */
     public function getReactionsSummaryAttribute(): array
     {
-        $reactions = config('comments.reactions.types', []);
+        $reactions = config('orbit-comments.reactions.types', []);
         $summary = [];
 
         foreach ($reactions as $type => $emoji) {
-            $count = $this->reactions()->where('type', $type)->count();
+            $reactionQuery = $this->reactions()->where('type', $type);
+            $count = $reactionQuery->count();
+
             if ($count > 0) {
+                // 사용자 정보도 함께 가져오기
+                $users = $reactionQuery->with('reactor')->get()->map(function ($reaction) {
+                    return [
+                        'id' => $reaction->reactor_id,
+                        'name' => $reaction->reactor ? ($reaction->reactor->name ?? $reaction->reactor->email ?? 'Unknown') : 'Unknown',
+                    ];
+                });
+
                 $summary[$type] = [
                     'emoji' => $emoji,
                     'count' => $count,
+                    'users' => $users->toArray(),
                 ];
             }
         }
@@ -186,10 +200,16 @@ class Comment extends Model
         $ratings = $this->ratings()->get();
         $summary = [];
 
-        foreach ($ratings as $rating) {
-            $summary[$rating->category] = [
-                'average' => $rating->average_rating,
-                'count' => $rating->rating_count,
+        // 각 카테고리별로 평균과 개수를 계산
+        $categories = $ratings->groupBy('category');
+
+        foreach ($categories as $category => $categoryRatings) {
+            $average = $categoryRatings->avg('rating');
+            $count = $categoryRatings->count();
+
+            $summary[$category] = [
+                'average' => $average ? round($average, 1) : null,
+                'count' => $count > 0 ? $count : null,
             ];
         }
 
@@ -258,4 +278,4 @@ class Comment extends Model
             }
         });
     }
-} 
+}
