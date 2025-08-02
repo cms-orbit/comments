@@ -1,6 +1,6 @@
 {
     "name": "cms-orbit/comments",
-    "version": "3.0.20",
+    "version": "1.0.1",
     "description": "A comprehensive comment system for CMS-Orbit with reactions, ratings, and notifications",
     "type": "library",
     "license": "MIT",
@@ -12,7 +12,7 @@
     ],
     "require": {
         "php": "^8.3",
-        "amuz/cms-orbit": "3.0.20"
+        "amuz/cms-orbit": "^3.0"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0",
