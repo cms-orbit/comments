@@ -1,6 +1,6 @@
 {
     "name": "cms-orbit/comments",
-    "version": "1.0.0",
+    "version": "3.0.20",
     "description": "A comprehensive comment system for CMS-Orbit with reactions, ratings, and notifications",
     "type": "library",
     "license": "MIT",

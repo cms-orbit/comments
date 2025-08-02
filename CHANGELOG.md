@@ -7,8 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.20] - 2024-01-01
+
 ### Added
 - Initial release of CMS-Orbit Comments package
+- 포괄적인 README 문서 및 사용 가이드
+- 실제 사용 화면 스크린샷 포함
+- 단계별 설치 및 설정 가이드
+
+### Improved
+- Vue 컴포넌트 사용법 예제 간소화
+- 코드 예제의 가독성 향상
+- API 문서 및 컴포넌트 레퍼런스 상세화
+
+### Documentation
 - Morph 관계를 통한 모든 모델에 댓글 기능 추가
 - 계층형 댓글 시스템 (답글 기능)
 - 이모지 기반 반응 시스템 (좋아요, 사랑해요, 웃겨요 등)
