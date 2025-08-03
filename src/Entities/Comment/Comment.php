@@ -1,13 +1,17 @@
 <?php
 
-namespace CmsOrbit\Comments\Models;
+namespace CmsOrbit\Comments\Entities\Comment;
 
+use App\Services\Traits\HasPermissions;
+use App\Services\Traits\SettingMenuItemTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use CmsOrbit\Comments\Events\CommentCreated;
@@ -16,6 +20,7 @@ use CmsOrbit\Comments\Events\CommentReplied;
 class Comment extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
+    use AsSource, Filterable, SettingMenuItemTrait, HasPermissions;
 
     protected $fillable = [
         'commentable_type',
@@ -33,15 +38,34 @@ class Comment extends Model
         'notify_reply',
         'ip_address',
         'user_agent',
-        'reaction_data',
+        'depth',
     ];
+
+    public static function getMenuItems(): array
+    {
+        return  [
+            [
+                'section' => __('Documents'),
+                'priority' => 5015,
+                'title' => __('All Comments'),
+                'icon' => 'bs.chat-dots',
+                'route' => self::getMenuRoute(),
+                'badge' => null,
+                'list' => self::getChildren(),
+                'permission' => self::getMenuPermission(),
+            ],
+        ];
+    }
 
     protected $casts = [
         'is_approved' => 'boolean',
         'is_spam' => 'boolean',
         'is_secret' => 'boolean',
         'notify_reply' => 'boolean',
-        'reaction_data' => 'array',
+        'depth' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     protected $appends = [
@@ -49,7 +73,6 @@ class Comment extends Model
         'author_avatar',
         'reactions_summary',
         'rating_summary',
-        'depth',
     ];
 
     protected $dispatchesEvents = [

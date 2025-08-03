@@ -2,7 +2,7 @@
 
 namespace CmsOrbit\Comments\Http\Controllers;
 
-use CmsOrbit\Comments\Models\Comment;
+use CmsOrbit\Comments\Entities\Comment\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -201,7 +201,7 @@ class CommentController extends Controller
         }
 
         $message = $isSpam ? '댓글이 작성되었지만 스팸으로 감지되어 검토 중입니다.' : '댓글이 성공적으로 작성되었습니다.';
-        
+
         return response()->json([
             'message' => $message,
             'comment' => $comment,
@@ -296,7 +296,7 @@ class CommentController extends Controller
         // 3. 키워드 기반 스팸 검사
         $content = strtolower($request->get('content'));
         $spamKeywords = config('orbit-comments.security.spam_keywords', []);
-        
+
         foreach ($spamKeywords as $keyword) {
             if (str_contains($content, strtolower($keyword))) {
                 return ['is_spam' => true, 'message' => '스팸 키워드가 포함되어 있습니다.'];
@@ -365,7 +365,7 @@ class CommentController extends Controller
     private function sendReplyNotifications(Comment $reply): void
     {
         $parentComment = $reply->parent;
-        
+
         if (!$parentComment) {
             return;
         }
@@ -385,13 +385,13 @@ class CommentController extends Controller
     private function sendNotificationsToParentChain(Comment $reply): void
     {
         $currentParent = $reply->parent;
-        
+
         while ($currentParent) {
             // notify_reply가 true이고 작성자가 있는 경우에만 알림 전송
             if ($currentParent->notify_reply && $currentParent->author) {
                 $currentParent->author->notify(new \CmsOrbit\Comments\Notifications\NewReplyNotification($reply));
             }
-            
+
             $currentParent = $currentParent->parent;
         }
     }

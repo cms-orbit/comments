@@ -2,7 +2,7 @@
 
 namespace CmsOrbit\Comments\Traits;
 
-use CmsOrbit\Comments\Models\Comment;
+use CmsOrbit\Comments\Entities\Comment\Comment;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;

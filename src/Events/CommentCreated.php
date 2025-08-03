@@ -2,7 +2,7 @@
 
 namespace CmsOrbit\Comments\Events;
 
-use CmsOrbit\Comments\Models\Comment;
+use CmsOrbit\Comments\Entities\Comment\Comment;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -51,4 +51,4 @@ class CommentCreated
     {
         return $this->comment->parent;
     }
-} 
+}

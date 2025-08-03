@@ -2,8 +2,8 @@
 
 namespace CmsOrbit\Comments\Http\Controllers;
 
-use CmsOrbit\Comments\Models\Comment;
-use CmsOrbit\Comments\Models\CommentReaction;
+use CmsOrbit\Comments\Entities\Comment\Comment;
+use CmsOrbit\Comments\Entities\Comment\CommentReaction;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -68,4 +68,4 @@ class CommentReactionController extends Controller
             'comment_id' => $comment->id,
         ]);
     }
-} 
+}

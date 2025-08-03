@@ -2,7 +2,7 @@
 
 namespace CmsOrbit\Comments\Notifications;
 
-use CmsOrbit\Comments\Models\Comment;
+use CmsOrbit\Comments\Entities\Comment\Comment;
 
 class NewCommentNotification extends CommentNotification
 {
@@ -13,7 +13,7 @@ class NewCommentNotification extends CommentNotification
     {
         $commentable = $this->comment->commentable;
         $title = method_exists($commentable, 'title') ? $commentable->title : '게시물';
-        
+
         return '새 댓글이 작성되었습니다: ' . $title;
     }
 
@@ -24,7 +24,7 @@ class NewCommentNotification extends CommentNotification
     {
         $commentable = $this->comment->commentable;
         $title = method_exists($commentable, 'title') ? $commentable->title : '게시물';
-        
+
         return '귀하의 ' . $title . '에 새 댓글이 작성되었습니다.';
     }
-} 
+}

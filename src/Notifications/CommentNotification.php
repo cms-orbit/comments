@@ -2,7 +2,7 @@
 
 namespace CmsOrbit\Comments\Notifications;
 
-use CmsOrbit\Comments\Models\Comment;
+use CmsOrbit\Comments\Entities\Comment\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

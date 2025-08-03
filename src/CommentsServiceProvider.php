@@ -5,6 +5,7 @@ namespace CmsOrbit\Comments;
 use App\Console\Commands\BuildThemeScripts;
 use App\Lang\LoadLangTrait;
 use App\Providers\SettingsServiceProvider;
+use App\Services\CmsHelper;
 use App\Services\ThemePathRegister;
 use App\Exceptions\ReservedAliasException;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +34,9 @@ class CommentsServiceProvider extends ServiceProvider
         $commentFrontendPath = new ThemePathRegister('@orbit/comments', __DIR__.'/../resources/js');
         BuildThemeScripts::registerPath($commentFrontendPath);
         BuildThemeScripts::registerTailwindBase(__DIR__.'/../resources/js/**/**/*.vue');
+
+        //관리자 화면에 엔티티 등록
+        CmsHelper::addEntityPath("CmsOrbit\\Comments\\Entities",__DIR__ . "/Entities");
     }
 
     /**
